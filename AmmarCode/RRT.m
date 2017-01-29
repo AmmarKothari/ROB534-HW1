@@ -1,9 +1,13 @@
 % RRT Implementation
 
-addpath('~/Documents/ROB534 - SDM/HW1/2D')
-addpath('~/Documents/ROB534 - SDM/HW1/AmmarCode')
-addpath('~/Documents/ROB534 - SDM/HW1/pq')
-cd('~/Documents/ROB534 - SDM/HW1')
+clear all
+close all
+fdir = fileparts(which(mfilename));
+cd(fdir)
+addpath('../2D')
+addpath('../AmmarCode')
+addpath('../pq')
+cd('..')
 
 % Constants %
 map = read_map('maze2.pgm');

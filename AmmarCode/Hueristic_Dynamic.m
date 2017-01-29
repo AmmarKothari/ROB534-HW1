@@ -4,19 +4,10 @@ function est = Hueristic_Dynamic(L1, map)
 [X, Y, DX, DY] = dynamic_state_from_index(map, L1);
 [X_goal, Y_goal, DX_goal, DY_goal] = dynamic_state_from_index(map, get_goal(map));
 
-<<<<<<< Updated upstream
 % est = euclidean([X,Y], [X_goal, Y_goal]);
 % est = manhattan([X,Y], [X_goal, Y_goal]);
 est = manhattan_dynamic([X,Y], [DX, DY], [X_goal, Y_goal]);
 % est = euclidean_dynamic([X,Y], [DX, DY], [X_goal, Y_goal]);
-=======
-% est = euclidian([X,Y], [X_goal, Y_goal]);
-% est = manhattan([X,Y], [X_goal, Y_goal]);
-
-est = manhattan_maxV([X,Y], [DX, DY], [X_goal, Y_goal]);
->>>>>>> Stashed changes
-
-
 end
 
 function d = manhattan_dynamic(L1, V1, goal)
@@ -39,14 +30,4 @@ end
 
 function d = manhattan(L1, goal)
     d = sum(abs(L1-goal));
-end
-
-function d = eucl_maxV(L1, V1, goal)
-    %manhattan distance minus max speed;
-    d = euclidian(L1, goal) - sum(V1);
-end
-
-function d = manhattan_maxV(L1, V1, goal)
-    %manhattan distance minus max speed;
-    d = manhattan(L1, goal) - sum(V1);
 end

@@ -1,16 +1,21 @@
 % A*
-addpath('~/Documents/ROB534 - SDM/HW1/4D')
-addpath('~/Documents/ROB534 - SDM/HW1/AmmarCode')
-addpath('~/Documents/ROB534 - SDM/HW1/pq')
-cd('~/Documents/ROB534 - SDM/HW1')
+clear all
+close all
+fdir = fileparts(which(mfilename));
+cd(fdir)
+addpath('../4D')
+addpath('../AmmarCode')
+addpath('../pq')
+cd('..')
 
 % Constants %
-map = read_map_for_dynamics('maze2.pgm');
+map = read_map_for_dynamics('maze1.pgm');
 move_cost = 1;
 
 % Initialization %
 goal = get_goal_dynamic(map);
 [start, num_nodes] = get_start_dynamic(map);
+current_location = start;
 maxV = map.maxV;
 initial_cost = 20000;
 cost_all = initial_cost*ones(num_nodes,1);
@@ -59,7 +64,7 @@ end
 current_location = start;
 while all(current_location ~= goal)
     [X, Y, dx, dy] = dynamic_state_from_index(map, current_location);
-    final_path = [final_path; X,Y]
+    final_path = [final_path; X,Y];
     neighbors = get_neighbors_dynamic(map, current_location);
     neighbors = neighbors((neighbors == current_location)~=1); %removing self from neighbors
     if isempty(neighbors)
@@ -70,4 +75,4 @@ while all(current_location ~= goal)
     current_location = next_loc;
     
 end
-plot_path(map, final_path, 'A* with Euclidian Distance Hueristic')
+plot_path(map, final_path, 'A* with ManhattanPlus Distance Hueristic')

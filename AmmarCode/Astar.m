@@ -1,11 +1,15 @@
 % A*
-addpath('~/Documents/ROB534 - SDM/HW1/2D')
-addpath('~/Documents/ROB534 - SDM/HW1/AmmarCode')
-addpath('~/Documents/ROB534 - SDM/HW1/pq')
-cd('~/Documents/ROB534 - SDM/HW1')
+clear all
+close all
+fdir = fileparts(which(mfilename));
+cd(fdir)
+addpath('../2D')
+addpath('../AmmarCode')
+addpath('../pq')
+cd('..')
 
 % Constants %
-map = read_map('maze1.pgm');
+map = read_map('maze2.pgm');
 move_cost = 1;
 
 % Initialization %
@@ -16,6 +20,7 @@ cost_all(start) = 0;
 goal_flag = 0;
 open_list = pq_init(600);
 open_list = pq_insert(open_list, start, cost_all(start));
+current_location = start;
 iter = 0;
 % open_list = pq_insert(open_list, start, 0);
 final_path = [];
@@ -57,4 +62,4 @@ while current_location ~= start
     current_location = next_loc;
     
 end
-plot_path(map, final_path, 'A* with Euclidian Distance Hueristic')
+plot_path(map, final_path, 'A* with Manhattan Distance Hueristic')

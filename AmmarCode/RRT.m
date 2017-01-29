@@ -6,7 +6,7 @@ addpath('~/Documents/ROB534 - SDM/HW1/pq')
 cd('~/Documents/ROB534 - SDM/HW1')
 
 % Constants %
-map = read_map('maze1.pgm');
+map = read_map('maze2.pgm');
 move_cost = 1;
 goal_samp = 0.05;
 

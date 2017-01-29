@@ -8,7 +8,7 @@ cd('~/Documents/ROB534 - SDM/HW1')
 map = read_map('maze2.pgm');
 move_cost = 1;
 user_epsilon = 10;
-time_limit = 1;
+time_limit = 0.05;
 
 
 % Initialization %

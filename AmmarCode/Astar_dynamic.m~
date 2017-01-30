@@ -25,8 +25,7 @@ open_list = pq_init(1000);
 open_list = pq_insert(open_list, start, cost_all(start));
 iter = 0;
 final_path = [];
-path_array = cell(length(cost_all), 1);
-path_array{start} = start;
+path_array = cell(length(cost_all));
 
 while goal_flag ~= 1
     iter = iter + 1;
@@ -60,7 +59,7 @@ while goal_flag ~= 1
                disp('ID' + string(neighbors(i)) + ' , ' + string(x) + ' ' + string(y))
            end
            open_list = pq_insert(open_list, neighbors(i), neighbor_cost);
-           path_array{neighbors(i)} = [neighbors(i); path_array{current_location}];
+           path_array{neighbors(i)} = [cells{neighbors(i)}; neighbors(i)];
         else
             disp('Location Being Checked: ' + string(neighbors(i)) + ' had no new neighbors')
         end
@@ -69,22 +68,18 @@ while goal_flag ~= 1
 
 end
 % need to find path from goal to start
-% current_location = goal;
-% while all(current_location ~= start)
-%     [X, Y, dx, dy] = dynamic_state_from_index(map, current_location);
-% %     final_path = [final_path; X,Y];
-%     neighbors = get_neighbors_dynamic(map, current_location);
-%     neighbors = neighbors((neighbors == current_location)~=1); %removing self from neighbors
-%     if isempty(neighbors)
-%         hello = 1;
-%     end
-%     [next_val, next_ind] = min(abs(cost_all(neighbors)));
-%     next_loc = neighbors(next_ind);
-%     current_location = next_loc;
-%     
-% end
-for i = 1:length(path_array{goal})
-    [x,y] = dynamic_state_from_index(map, path_array{goal}(i));
-   final_path = [final_path; [x, y]];
+current_location = goal;
+while all(current_location ~= start)
+    [X, Y, dx, dy] = dynamic_state_from_index(map, current_location);
+    final_path = [final_path; X,Y];
+    neighbors = get_neighbors_dynamic(map, current_location);
+    neighbors = neighbors((neighbors == current_location)~=1); %removing self from neighbors
+    if isempty(neighbors)
+        hello = 1;
+    end
+    [next_val, next_ind] = min(abs(cost_all(neighbors)));
+    next_loc = neighbors(next_ind);
+    current_location = next_loc;
+    
 end
 plot_path(map, final_path, 'A* with ManhattanPlus Distance Hueristic')

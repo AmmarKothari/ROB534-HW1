@@ -34,6 +34,7 @@ while goal_flag ~= 1
     try
         [open_list, current_location] = pq_pop(open_list);
     catch error
+        disp('Uh Oh: No more nodes in queue!')
         hello = 1;
     end
     neighbors = get_neighbors(map, current_location);
@@ -43,7 +44,12 @@ while goal_flag ~= 1
     for i = 1:length(neighbors)-1
         neighbor_cost = current_cost + move_cost + Hueristic(neighbors(i), map);
         if neighbor_cost < cost_all(neighbors(i))
-           cost_all(neighbors(i)) = neighbor_cost; 
+           cost_all(neighbors(i)) = neighbor_cost;
+           if pq_test(open_list, neighbors(i))
+               [x, y] = state_from_index(neighbors(i));
+               disp('Point already in Queue')
+               disp('ID' + string(neighbors(i)) + ' , ' + string(x) + ' ' + string(y))
+           end
            open_list = pq_insert(open_list, neighbors(i), neighbor_cost);
         end
     end

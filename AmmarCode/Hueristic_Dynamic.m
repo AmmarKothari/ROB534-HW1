@@ -11,8 +11,8 @@ est = euclidean_dynamic([X,Y], [DX, DY], [X_goal, Y_goal]);
 end
 
 function d = manhattan_dynamic(L1, V1, goal)
-%incetive to go as fast as possible
-    d = manhattan(L1, goal)/8 - sum(V1);
+    %incetive to go as fast as possible
+    d = manhattan(L1, goal)/norm([2,2]) - sum(V1);
     d = max(0, d); %make sure hueristic can't be negative so weird stuff doens't start to happen
     
 end
@@ -20,7 +20,7 @@ end
 function d = euclidean_dynamic(L1, V1, goal)
 % max = ((25 - 1)^2 + (25 - 1)^2)^(0.5) - (2 + 2) = 29.48
 %incetive to go as fast as possible
-    d = euclidean(L1, goal)/8 - sum(V1);
+    d = euclidean(L1, goal)/norm([2,2]) - sum(V1);
     d = max(0, d); %make sure hueristic can't be negative so weird stuff doens't start to happen
     
 end

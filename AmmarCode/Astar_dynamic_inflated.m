@@ -12,7 +12,7 @@ cd('..')
 map = read_map_for_dynamics('maze2.pgm');
 move_cost = 1;
 user_epsilon = 10;
-time_limit = 30;
+time_limit = 1;
 
 % Initialization %
 epsilon = user_epsilon;
@@ -32,6 +32,8 @@ while toc < time_limit
     open_list = pq_insert(open_list, start, cost_all(start));
     iter = 0;
     final_path = [];
+    path_array = cell(length(cost_all), 1);
+    path_array{start} = start;
 
     while goal_flag ~= 1 && iter < 25*25*3*3*5
         iter = iter + 1;
@@ -68,6 +70,7 @@ while toc < time_limit
 %                disp('Location Being Checked: ' + string(neighbors(i)) + ', Old Cost: ' + string(cost_all(neighbors(i))) + ', New Cost: ' + string(neighbor_cost))
                cost_all(neighbors(i)) = neighbor_cost; 
                open_list = pq_insert(open_list, neighbors(i), neighbor_cost);
+               path_array{neighbors(i)} = [neighbors(i); path_array{current_location}];
             else
 %                 disp('Location Being Checked: ' + string(neighbors(i)) + ' had no new neighbors')
                 continue
@@ -77,22 +80,27 @@ while toc < time_limit
 
     end
     % need to find path from goal to start
-    current_location = start;
-    while all(current_location ~= goal)
-        [X, Y, dx, dy] = dynamic_state_from_index(map, current_location);
-        final_path = [final_path; X,Y];
-%         disp('dx: ' + string(dx) + ', dy: ' + string(dy))
-        neighbors = get_neighbors_dynamic(map, current_location);
-%         neighbors = get_neighbors_dynamic_rev(map, current_location);
-        neighbors = neighbors((neighbors == current_location)~=1); %removing self from neighbors
-        if isempty(neighbors)
-            hello = 1;
-        end
-        [next_val, next_ind] = min(abs(cost_all(neighbors)));
-        next_loc = neighbors(next_ind);
-        current_location = next_loc;
-%         plot_path(map, final_path, 'blah')
-%         pause(0.01)
+%     current_location = start;
+%     while all(current_location ~= goal)
+%         [X, Y, dx, dy] = dynamic_state_from_index(map, current_location);
+%         final_path = [final_path; X,Y];
+% %         disp('dx: ' + string(dx) + ', dy: ' + string(dy))
+%         neighbors = get_neighbors_dynamic(map, current_location);
+% %         neighbors = get_neighbors_dynamic_rev(map, current_location);
+%         neighbors = neighbors((neighbors == current_location)~=1); %removing self from neighbors
+%         if isempty(neighbors)
+%             hello = 1;
+%         end
+%         [next_val, next_ind] = min(abs(cost_all(neighbors)));
+%         next_loc = neighbors(next_ind);
+%         current_location = next_loc;
+% %         plot_path(map, final_path, 'blah')
+% %         pause(0.01)
+%     end
+    
+    for i = 1:length(path_array{goal})
+        [x,y] = dynamic_state_from_index(map, path_array{goal}(i));
+       final_path = [final_path; [x, y]];
     end
     path_length = length(final_path);
     disp('Epsilon ' + string(epsilon))
